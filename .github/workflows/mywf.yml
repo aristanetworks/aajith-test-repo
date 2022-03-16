@@ -10,4 +10,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.base_ref }} 
+          fetch-depth: 0
