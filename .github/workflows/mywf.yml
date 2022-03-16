@@ -1,13 +1,13 @@
 ---
 on: 
-  issue_comment:
-    types: [created]
-
+  pull_request:
+    branches: [main-eos-trunk]
 jobs:
   fast_forward_job:
     name: Fast Forward Job
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/fast-forward')   
     runs-on: ubuntu-latest
     steps:
-      - name: Fast Forward PR
-        uses: endre-spotlab/fast-forward-js-action@2.1
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.base_ref }} 

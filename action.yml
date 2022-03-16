@@ -1,0 +1,6 @@
+# action.yaml
+name: 'FF PR'
+description: 'Try to do an FF merge'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
