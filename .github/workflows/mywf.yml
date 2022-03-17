@@ -20,7 +20,7 @@ jobs:
         ( contains(github.event.comment.body, '/try-to-merge' ) ) )
     steps:
       - name: Debug event
-        run: echo ${{ github.event.pull_request.base.ref }}
+        run: echo ${{ github.event }}
   fast_forward_job:
     name: Fast Forward Job
     # Skip if not approved or of mainline base branch or if labeled `do-not-merge`
