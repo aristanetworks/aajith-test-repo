@@ -9,7 +9,10 @@ on:
 jobs:
   fast_forward_job:
     name: Fast Forward Job
-    if: github.event.review.state == 'approved' && startswith( github.event.pull_request.base.ref, 'main-' )
+    if: >
+      ( github.event.review.state == 'approved' ) &&
+      ( startswith( github.event.pull_request.base.ref, 'main-' ) ) &&
+      ( !contains(github.event.pull_request.labels.*.names, 'do-not-merge') )
     env:
       TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
       SOURCE_BRANCH: ${{ github.event.pull_request.head.ref }} 
