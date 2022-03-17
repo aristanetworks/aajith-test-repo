@@ -18,6 +18,10 @@ jobs:
       SOURCE_BRANCH: ${{ github.event.pull_request.head.ref }} 
     runs-on: ubuntu-latest
     steps:
+      - name: Debug label names
+        run: echo "label names: ${{ github.event.pull_request.labels.*.names }}"
+      - name: Debug contains
+        run: echo "label names: ${{ contains(github.event.pull_request.labels.*.names, 'do-not-merge') }}"
       - name: Checkout
         uses: actions/checkout@v2
         with:
