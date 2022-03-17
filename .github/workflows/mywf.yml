@@ -24,6 +24,7 @@ jobs:
         ( contains(github.event.comment.body, '/try-to-merge' ) ) )
 
     env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
       SOURCE_BRANCH: ${{ github.event.pull_request.head.ref }}
       PR_URL: ${{ github.event.issue.pull_request.url }}
