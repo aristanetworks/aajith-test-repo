@@ -1,10 +1,18 @@
 ---
-on: 
+on:
   pull_request:
-    branches: [main-eos-trunk]
+    branches:
+      - 'main-*'
+  pull_request_review:
+    types: [submitted]
+
 jobs:
   fast_forward_job:
     name: Fast Forward Job
+    if: github.event.review.state == 'approved' && startswith( github.event.pull_request.base.ref, 'main-' )
+    env:
+      TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
+      SOURCE_BRANCH: ${{ github.event.pull_request.head.ref }} 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
