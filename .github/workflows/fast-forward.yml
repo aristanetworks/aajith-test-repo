@@ -11,10 +11,11 @@ on:
 jobs:
   fast_forward_job:
     name: Fast Forward Job
-    # Skip if not approved or of mainline base branch or if labeled `do-not-merge`
-    # Force run job on `/try-to-merge` comment
+    # Skip if not mergeable, or not off mainline base branch,
+    # or if labeled do-not-merge
+    # Force run job on /try-to-merge comment
     if: >
-      ( ( github.event.review.state == 'approved' ) &&
+      ( ( github.event.pull_request.mergeable_state == 'clean' ) &&
         ( startswith( github.event.pull_request.base.ref, 'main-' ) ) &&
         ( !contains( github.event.pull_request.labels.*.name, 'do-not-merge' ) ) ) ||
       ( ( github.event.comment != '' ) && 
