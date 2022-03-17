@@ -5,17 +5,28 @@ on:
       - 'main-*'
   pull_request_review:
     types: [submitted]
+  label:
+    types: [deleted]
+  issue_comment:
+    types: [created]
 
 jobs:
   fast_forward_job:
     name: Fast Forward Job
+
+    # Skip if not approved or of mainline base branch or if labeled `do-not-merge`
+    # Force run job on `/try-to-merge` comment
     if: >
-      ( github.event.review.state == 'approved' ) &&
-      ( startswith( github.event.pull_request.base.ref, 'main-' ) ) &&
-      ( !contains(github.event.pull_request.labels.*.names, 'do-not-merge') )
+      ( ( github.event.review.state == 'approved' ) &&
+        ( startswith( github.event.pull_request.base.ref, 'main-' ) ) &&
+        ( !contains( github.event.pull_request.labels.*.name, 'do-not-merge' ) ) ) ||
+      ( ( github.event.comment != '' ) && 
+        ( github.event.issue.pull_request != '' ) && 
+        ( contains(github.event.comment.body, '/try-to-merge' ) ) )
+
     env:
       TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
-      SOURCE_BRANCH: ${{ github.event.pull_request.head.ref }} 
+      SOURCE_BRANCH: ${{ github.event.pull_request.head.ref }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
