@@ -5,4 +5,7 @@ Amending my first commit.<br/>
 Test pull request with ff action<br/>
 This time for real<br/>
 aajith-b1.<br/>
-Try labels
+Try labels.<br/>
+Test do-not-merge label and /try-to-merge<br/>
+Automatic trigger on label delete doesn't seem to work.<br/>
+/try-to-merge fails to setup event.pull_request.<br/>

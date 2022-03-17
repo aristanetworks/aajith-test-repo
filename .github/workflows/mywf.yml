@@ -11,18 +11,24 @@ on:
     types: [created]
 
 jobs:
+  debug_job:
+    name: Debug job
+    runs-on: ubuntu-latest
+    if: >
+      ( ( github.event.comment != '' ) && 
+        ( github.event.issue.pull_request != '' ) && 
+        ( contains(github.event.comment.body, '/try-to-merge' ) ) )
+    steps:
+      - name: Debug event
+        run: echo ${{ github.event.pull_request.base.ref }}
   fast_forward_job:
     name: Fast Forward Job
-
     # Skip if not approved or of mainline base branch or if labeled `do-not-merge`
     # Force run job on `/try-to-merge` comment
     if: >
       ( ( github.event.review.state == 'approved' ) &&
         ( startswith( github.event.pull_request.base.ref, 'main-' ) ) &&
-        ( !contains( github.event.pull_request.labels.*.name, 'do-not-merge' ) ) ) ||
-      ( ( github.event.comment != '' ) && 
-        ( github.event.issue.pull_request != '' ) && 
-        ( contains(github.event.comment.body, '/try-to-merge' ) ) )
+        ( !contains( github.event.pull_request.labels.*.name, 'do-not-merge' ) ) )
 
     env:
       TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
