@@ -22,11 +22,11 @@ function try_merge {
 }
 
 function get_branches_from_pr_url {
-   echo "Token: ${GITHUB_TOKEN}"
    PR_DATA=$(curl -H "Accept: application/vnd.github.v3+json" \
                   -H "Authorization: token ${GITHUB_TOKEN}" \
                   "${PR_URL}")
-   echo "PR: ${PR_DATA}"
+   TARGET_BRANCH=$(echo ${PR_DATA} | jq .base.ref)
+   SOURCE_BRANCH=$(echo ${PR_DATA} | jq .head.ref)
 }
 
 function main {
