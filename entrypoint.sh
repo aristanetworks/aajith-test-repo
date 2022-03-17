@@ -25,8 +25,8 @@ function get_branches_from_pr_url {
    PR_DATA=$(curl -H "Accept: application/vnd.github.v3+json" \
                   -H "Authorization: token ${GITHUB_TOKEN}" \
                   "${PR_URL}")
-   TARGET_BRANCH=$(echo ${PR_DATA} | jq .base.ref)
-   SOURCE_BRANCH=$(echo ${PR_DATA} | jq .head.ref)
+   TARGET_BRANCH=$(echo ${PR_DATA} | jq -r .base.ref)
+   SOURCE_BRANCH=$(echo ${PR_DATA} | jq -r .head.ref)
 }
 
 function main {
